@@ -23,5 +23,13 @@ void	ft_putnbr(int n);
 char	*ft_strdup(const char *s1);
 void	convert(unsigned char c, int pid);
 void	ft_putchar(char c);
-
+char	*ft_itoa(int n);
+int		ft_atoi(const char *str);
+void	ft_putstr(char *s);
+void	ft_putstr(char *s);
+void	ft_bzero(void *s, size_t n);
+int		ft_strlen(const char *str);
+void	ft_putchar(char c);
+void	ft_putnbr(int n);
+char	*ft_strdup(const char *s1);
 #endif

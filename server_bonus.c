@@ -2,43 +2,19 @@
 
 t_minitalk info;
 
-static int	ft_is_space(char c)
+void	get_sig2(int sig_num)
 {
-	if (c == ' ' || c == '\n' || c == '\t' || c == '\v' \
-			|| c == '\r' || c == '\f')
-	{
-		return (1);
-	}
-	return (0);
-}
+	unsigned char	bit;
 
-int			ft_atoi(const char *str)
-{
-	int			i;
-	long long	nmr;
-	int			signal;
-
-	i = 0;
-	nmr = 0;
-	signal = 1;
-	while (ft_is_space(str[i]) == 1)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	bit = 0b10000000;
+	if (sig_num == SIGUSR2)
+		info.index++;
+	if (sig_num == SIGUSR1)
 	{
-		if (str[i] == '-')
-			signal = -1;
-		i++;
+		bit = bit >> info.index;
+		info.c = info.c | bit;
+		info.index++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		nmr = nmr * 10 + ((str[i++] - 48));
-	}
-	nmr = nmr * signal;
-	if (nmr > 2147483647)
-		return (-1);
-	else if (nmr < -2147483648)
-		return (0);
-	return (nmr);
 }
 
 void    init(t_minitalk *info)
@@ -61,7 +37,7 @@ void    init(t_minitalk *info)
     write(1, "\n", 1);
 }
 
-void    signal(t_minitalk *info)
+void    take_signal(t_minitalk *info)
 {
     ft_putstr(info->msg);
     write(1, "\n", 1);
@@ -69,30 +45,15 @@ void    signal(t_minitalk *info)
     info->flag = 0;
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*dst;
-	size_t			i;
-
-	i = 0;
-	dst = (unsigned char *)s;
-	while (i < n)
-	{
-		dst[i] = 0;
-		i++;
-	}
-}
-
-
 void    pick(t_minitalk *info)
 {
-    if (info->flag = 0)
+    if (info->flag == 0)
     {
         info->client = ft_atoi(info->msg);
         info->flag = 1;
     }
     else
-        signal(&info);
+        take_signal(info);
     ft_bzero(info->msg, 4096);
 }
 
@@ -101,8 +62,8 @@ int main(void)
     int i;
 
     init(&info);
-    signal(SIGUSR1, get_sig);
-	signal(SIGUSR2, get_sig);
+    signal(SIGUSR1, get_sig2);
+	signal(SIGUSR2, get_sig2);
     while (1)
     {
         pause();
