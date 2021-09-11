@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/11 16:57:03 by gjakobss          #+#    #+#             */
+/*   Updated: 2021/09/11 16:57:26 by gjakobss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 int	ft_strlen(const char *str)
@@ -20,7 +32,7 @@ char	*ft_strdup(const char *s1)
 
 	i = 0;
 	len = ft_strlen((char *)s1);
-	dest = (char*)malloc((len + 1) * sizeof(char));
+	dest = (char *)malloc((len + 1) * sizeof(char));
 	if (!dest)
 	{
 		return (NULL);
@@ -50,11 +62,11 @@ void	convert(unsigned char c, int pid)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int pid;
-	char *msg;
-	int i;
+	int		pid;
+	char	*msg;
+	int		i;
 
 	if (argc != 3)
 		exit(0);

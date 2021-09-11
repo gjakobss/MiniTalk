@@ -1,32 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/11 17:03:13 by gjakobss          #+#    #+#             */
+/*   Updated: 2021/09/11 17:03:19 by gjakobss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
-t_minitalk info;
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-void	ft_putstr(char *s)
-{
-	int	i;
-
-	i = ft_strlen(s);
-	write(1, s, i);
-}
-
+t_minitalk	g_info;
 
 void	get_sig(int sig_num)
 {
@@ -34,80 +20,53 @@ void	get_sig(int sig_num)
 
 	bit = 0b10000000;
 	if (sig_num == SIGUSR2)
-		info.index++;
+		g_info.index++;
 	if (sig_num == SIGUSR1)
 	{
-		bit = bit >> info.index;
-		info.c = info.c | bit;
-		info.index++;
+		bit = bit >> g_info.index;
+		g_info.c = g_info.c | bit;
+		g_info.index++;
 	}
-
 }
 
-void	roger_that(t_minitalk *info)
+void	roger_that(t_minitalk *g_info)
 {
-	int i;
+	int	i;
 
 	pause();
-	if (info->index == 8)
+	if (g_info->index == 8)
 	{
 		i = 0;
-		while (info->msg[i] != 0)
+		while (g_info->msg[i] != 0)
 			i++;
-		info->msg[i] = info->c;
-		if (info->c == '\0')
+		g_info->msg[i] = g_info->c;
+		if (g_info->c == '\0')
 		{
-			ft_putstr(info->msg);
+			ft_putstr(g_info->msg);
 			write(1, "\n", 1);
 			i = 0;
 			while (i < 4096)
 			{
-				info->msg[i] = 0;
+				g_info->msg[i] = 0;
 				i++;
 			}
 		}
-		info->index = 0;
-		info->c = 0;
+		g_info->index = 0;
+		g_info->c = 0;
 	}
 }
-
-void	ft_putnbr(int n)
-{
-	if (n == -2147483648)
-	{
-		ft_putchar('-');
-		ft_putchar('2');
-		ft_putnbr(147483648);
-		return ;
-	}
-	if (n < 0)
-	{
-		ft_putchar('-');
-		n *= -1;
-	}
-	if (n >= 10)
-	{
-		ft_putnbr(n / 10);
-		n = n % 10;
-	}
-	if (n >= 0 && n < 10)
-	{
-		ft_putchar(n + '0');
-	}
-}
-
 
 int	main(void)
 {
-	pid_t pid;
-	int x;
+	pid_t	pid;
+	int		x;
 
 	x = 0;
-	info.c = 0;
-	info.index = 0;
+	g_info.c = 0;
+	g_info.index = 0;
 	while (x < 4096)
 	{
-		info.msg[x] = 0;
+		g_info.msg[x] = 0;
 		x++;
 	}
 	pid = getpid();
@@ -116,6 +75,6 @@ int	main(void)
 	signal(SIGUSR1, get_sig);
 	signal(SIGUSR2, get_sig);
 	while (1)
-		roger_that(&info);
+		roger_that(&g_info);
 	return (0);
 }

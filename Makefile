@@ -5,10 +5,10 @@ RM = rm -f
 NAME_S = server
 NAME_C = client
 
-SRCS_S = server.c
+SRCS_S = server.c utils.c
 SRCS_C = client.c
-SRCS_S_B = server_bonus.c utils_bonus.c utils2_bonus.c
-SRCS_C_B = client_bonus.c utils_bonus.c utils2_bonus.c
+SRCS_S_B = server_bonus.c utils_bonus.c
+SRCS_C_B = client_bonus.c utils_bonus.c
 
 OBJS_S = $(SRCS_S:.c=.o)
 OBJS_C = $(SRCS_C:.c=.o)

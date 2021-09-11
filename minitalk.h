@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjakobss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/11 17:03:48 by gjakobss          #+#    #+#             */
+/*   Updated: 2021/09/11 17:04:55 by gjakobss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINITALK_H
 # define MINITALK_H
 
@@ -6,7 +18,7 @@
 # include <unistd.h>
 # include <signal.h>
 
-typedef struct	s_minitalk
+typedef struct s_minitalk
 {
 	int				index;
 	unsigned char	c;
